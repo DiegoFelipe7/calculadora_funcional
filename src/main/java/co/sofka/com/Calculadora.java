@@ -30,7 +30,7 @@ public class Calculadora {
 
     public Double divicion(List<Integer> valores) {
         return Double.valueOf(valores.stream().reduce((x, y) -> {
-            return x / y;
+            return y / x;
         }).get());
     }
 
@@ -47,4 +47,5 @@ public class Calculadora {
                 .peek(e -> logger.info("La potencia es "+ e*e))
                 .collect(Collectors.toList());
     }
+
 }
