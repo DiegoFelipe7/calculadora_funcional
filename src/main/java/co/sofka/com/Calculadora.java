@@ -4,34 +4,65 @@ import org.jboss.logging.Logger;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Calculadora {
     static final Logger logger = Logger.getLogger("logger");
-    public Integer suma(List<Integer> valores) {
-        return valores.stream().reduce((x, y) -> {
-            return x + y;
-        }).get();
+
+    public List<Double> suma(List<Double> listaUno ,List<Double> listDos) {
+        AtomicInteger contador= new AtomicInteger();
+        return listaUno.stream().map((x)->{
+            if(listaUno.size()!=listDos.size()){
+                throw  new IllegalArgumentException("Error las listas deben tener el mismo tamaño");
+            }
+            return x + listDos.get(contador.getAndIncrement());
+        }).collect(Collectors.toList());
     }
 
-    public Integer resta(List<Integer> valores) {
-
-        return valores.stream().skip(5)
-                .reduce((x, y) -> {
-                    return y - x;
-                }).get();
+    public List<Double> resta(List<Double> listaUno , List<Double> listaDos) {
+        AtomicInteger contador= new AtomicInteger();
+        return listaUno.stream().map((x)->{
+            if(listaUno.size()!=listaDos.size()){
+                throw  new IllegalArgumentException("Error las listas deben tener el mismo tamaño");
+            }
+            return x - listaDos.get(contador.getAndIncrement());
+        }).collect(Collectors.toList());
     }
 
-    public Integer multiplicacion(List<Integer> valores) {
-        return valores.stream().reduce((x, y) -> {
-            return x * y;
-        }).get();
+    public List<Double> multiplicacion(List<Double> listaUno , List<Double> listaDos) {
+        AtomicInteger contador= new AtomicInteger();
+        return listaUno.stream().map((x)->{
+            if(listaUno.size()!=listaDos.size()){
+                throw  new IllegalArgumentException("Error las listas deben tener el mismo tamaño");
+            }
+            return x * listaDos.get(contador.getAndIncrement());
+        }).collect(Collectors.toList());
     }
 
-    public Double divicion(List<Integer> valores) {
-        return Double.valueOf(valores.stream().reduce((x, y) -> {
-            return y / x;
-        }).get());
+    public List<Double> divicion(List<Double> listaUno , List<Double> listaDos) {
+        AtomicInteger contador= new AtomicInteger();
+        return listaUno.stream().map((x)->{
+            if(listaUno.size()!=listaDos.size()){
+                throw  new IllegalArgumentException("Error las listas deben tener el mismo tamaño");
+            }
+
+            return x / listaDos.get(contador.getAndIncrement());
+        }).collect(Collectors.toList());
+    }
+
+    public double promedio(List<Double> listaUno , List<Double>listaDos){
+        AtomicInteger contador= new AtomicInteger();
+        List<Double> valor=  listaUno.stream().map((x)->{
+                if(listaUno.size()!=listaDos.size()){
+                    throw  new IllegalArgumentException("Error las listas deben tener el mismo tamaño");
+                }
+                return x + listaDos.get(contador.getAndIncrement());
+            }).collect(Collectors.toList());
+
+        return valor.stream().reduce((x,y)->{
+            return x+y;
+        }).get()/((listaDos.size()*2));
     }
 
     public Optional<Integer> SumaPares(List<Integer> valores) {
